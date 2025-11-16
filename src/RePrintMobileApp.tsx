@@ -601,7 +601,8 @@ export default function RePrintMobileApp(): React.ReactNode {
 }
 
 // ---------- Minimal Dev Sanity Tests ----------
-if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
+const __isProd = (typeof import.meta !== 'undefined' && (import.meta as any).env && (import.meta as any).env.MODE === 'production');
+if (typeof window !== "undefined" && !__isProd) {
   try {
     console.assert(clamp(-10, 0, 100) === 0);
     console.assert(clamp(250, 0, 100) === 100);
