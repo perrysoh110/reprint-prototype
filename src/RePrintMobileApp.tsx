@@ -110,9 +110,9 @@ export default function RePrintMobileApp(): React.ReactNode {
     const t = Date.now();
     return {
       r1: [
-        { id: "e1", ts: t - 5 * MIN_MS, level: "error", message: "Placeholder error message (sensor drift)" },
-        { id: "e2", ts: t - 3 * MIN_MS, level: "error", message: "Placeholder error message (jam detected)" },
-        { id: "e3", ts: t - 1 * MIN_MS, level: "error", message: "Placeholder error message (over-temp)" },
+        { id: "e1", ts: t - 5 * MIN_MS, level: "error" as DeviceLogEntry["level"], message: "Placeholder error message (sensor drift)" },
+        { id: "e2", ts: t - 3 * MIN_MS, level: "error" as DeviceLogEntry["level"], message: "Placeholder error message (jam detected)" },
+        { id: "e3", ts: t - 1 * MIN_MS, level: "error" as DeviceLogEntry["level"], message: "Placeholder error message (over-temp)" },
       ],
       r2: [],
       r3: [],
@@ -495,7 +495,7 @@ export default function RePrintMobileApp(): React.ReactNode {
                   setLogs(function (p) {
                     const copy: Record<string, DeviceLogEntry[]> = { ...p };
                     const arr = copy[logTab] ? copy[logTab].slice() : [];
-                    arr.push({ id: 't-' + id, ts: Date.now(), level: 'info', message: 'Help ticket ' + id + ' created.' });
+                    arr.push({ id: 't-' + id, ts: Date.now(), level: 'info' as DeviceLogEntry["level"], message: 'Help ticket ' + id + ' created.' });
                     copy[logTab] = arr;
                     return copy;
                   });
@@ -507,7 +507,7 @@ export default function RePrintMobileApp(): React.ReactNode {
                   setLogs(function (p) {
                     const copy: Record<string, DeviceLogEntry[]> = { ...p };
                     const arr = (copy[logTab] || []).map(function (x) {
-                      return x.level === 'error' ? { ...x, level: 'resolved', message: 'Resolved - ' + x.message } : x;
+                      return x.level === 'error' ? { ...x, level: 'resolved' as DeviceLogEntry["level"], message: 'Resolved - ' + x.message } : x;
                     });
                     copy[logTab] = arr;
                     return copy;
@@ -620,6 +620,6 @@ if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
     console.assert(clamp(50, 0, 100) === 50);
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.warn("Dev tests failed", e);
+    (globalThis as any).console?.warn?.("Dev tests failed", e);
   }
 }
